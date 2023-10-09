@@ -1,0 +1,20 @@
+pipeline{
+    agent any
+    stages{
+        stage(("code")){
+            steps{
+                git url: 'https://github.com/hasrivastava/react-django-app-practice.git', branch: 'main'
+            }
+        }
+        stage(("docker build")){
+            steps{
+                sh "docker build . -t django-app"
+            }
+        }
+        stage(("docker deploy")){
+            steps{
+                sh "docker run -d -p 8001:8001 --name django_app django-app"
+            }
+        }
+    }
+}
